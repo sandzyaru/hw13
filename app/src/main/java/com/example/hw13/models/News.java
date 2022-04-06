@@ -14,11 +14,15 @@ public class News implements Serializable {
     private int id;
 
     private String title;
+
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+    }
+
     private long createdAt;
     public int getId() {
         return id;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -34,5 +38,8 @@ public class News implements Serializable {
     public News(String title, long createdAt) {
         this.title = title;
         this.createdAt = createdAt;
+    }
+
+    public News() {
     }
 }

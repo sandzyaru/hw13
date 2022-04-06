@@ -23,7 +23,7 @@ public interface NewsDao {
     List<News> sortAll();
 
     @Delete
-    void deleteTask(List<News> news);
+    void deleteTask(News news);
 
     @Query("SELECT * FROM news WHERE title LIKE '%' || :search || '%'")
     List<News> getSearch(String search);

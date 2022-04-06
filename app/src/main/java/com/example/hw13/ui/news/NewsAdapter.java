@@ -112,6 +112,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
                 }
             });
+
+        }
+
+
+        public void bind(News news) {
+            binding.textTitle.setText(news.getTitle());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy", Locale.ROOT);
+            String date = String.valueOf(simpleDateFormat.format(news.getCreatedAt()));
+            binding.time.setText(date);
             binding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -124,7 +133,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                                 public void onClick(DialogInterface dialog, int which) {
                                     Toast.makeText(view.getContext(), "Delete", Toast.LENGTH_LONG).show();
                                     list.remove(getAdapterPosition());
-                                    App.getDataBase().newsDao().deleteTask(list);
+                                    App.getDataBase().newsDao().deleteTask(news);
                                     notifyDataSetChanged();
 
                                 }
@@ -132,14 +141,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                     return true;
                 }
             });
-        }
-
-
-        public void bind(News news) {
-            binding.textTitle.setText(news.getTitle());
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy", Locale.ROOT);
-            String date = String.valueOf(simpleDateFormat.format(news.getCreatedAt()));
-            binding.time.setText(date);
         }
     }
 }

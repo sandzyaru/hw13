@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,10 @@ import com.example.hw13.R;
 
 import com.example.hw13.databinding.FragmentNewsBinding;
 import com.example.hw13.models.News;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
@@ -28,6 +33,8 @@ import java.util.List;
 public class NewsFragment extends Fragment {
     private FragmentNewsBinding binding;
     private News news;
+    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
 
     @Override
@@ -36,6 +43,7 @@ public class NewsFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentNewsBinding.inflate(inflater, container, false);
         return binding.getRoot();
+
     }
 
     private void save() {
@@ -54,11 +62,34 @@ public class NewsFragment extends Fragment {
             news = new News(text, System.currentTimeMillis());
         }else {
             news.setTitle(text);
+
         }
         bundle.putSerializable("text", news);
         App.getDataBase().newsDao().insert(news);
+        saveToFireStore(news);
         getParentFragmentManager().setFragmentResult("rk_news", bundle);
-        close();
+
+
+
+    }
+
+    private void saveToFireStore(News news) {
+        db.collection("news")
+                .add(news)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
+                        close();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("TAG", "Error adding document", e);
+                    }
+                });
+
     }
 
     private void close() {
@@ -77,8 +108,13 @@ public class NewsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 save();
+                
+              
+
 
             }
         });
+
+
     }
 }
