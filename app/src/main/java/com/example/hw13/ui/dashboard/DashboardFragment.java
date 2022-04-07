@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +30,6 @@ public class DashboardFragment extends Fragment {
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private News news;
     private List<News> newsList;
-
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -70,7 +69,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setAdapter() {
-        newsAdapter=new NewsAdapter();
+        newsAdapter = new NewsAdapter();
         binding.recyclerView.setAdapter(newsAdapter);
         newsAdapter.addList(newsList);
     }

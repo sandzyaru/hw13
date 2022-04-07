@@ -36,7 +36,6 @@ public class NewsFragment extends Fragment {
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,7 +59,7 @@ public class NewsFragment extends Fragment {
         }
         if (news == null) {
             news = new News(text, System.currentTimeMillis());
-        }else {
+        } else {
             news.setTitle(text);
 
         }
@@ -68,7 +67,6 @@ public class NewsFragment extends Fragment {
         App.getDataBase().newsDao().insert(news);
         saveToFireStore(news);
         getParentFragmentManager().setFragmentResult("rk_news", bundle);
-
 
 
     }
@@ -108,8 +106,6 @@ public class NewsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 save();
-                
-              
 
 
             }
